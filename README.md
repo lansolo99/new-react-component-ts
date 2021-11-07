@@ -2,7 +2,7 @@
 
 ...with TypeScript support and fixed config.
 
-I wanted to contribute to the original project but unfortunately, [it is a little bit dead](https://github.com/joshwcomeau/new-component/pulls), so I hope this repo with features that were essential for me, will help some of you with making React components with more ease 😌
+I contributed to the upstream but I am afraid that it will not be noticed ([original repo looks a little bit abandoned](https://github.com/joshwcomeau/new-component/pulls)), so I hope this repo with features that were essential for me, will help some of you with making React components with more ease 😌
 
 The rest of README is just the original text with some tweaks needed to explain features added by me.
 
