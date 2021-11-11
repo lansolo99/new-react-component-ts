@@ -29,8 +29,8 @@ module.exports.getConfig = () => {
 
   const defaults = {
     type: 'functional',
-    dir: 'src/components',
-    language: 'js',
+    dir: 'components',
+    language: 'ts',
     extension: 'js',
   };
 

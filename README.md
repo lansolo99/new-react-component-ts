@@ -1,6 +1,6 @@
 # Fork of [Joshua Comeau's `new-component` CLI utility](https://github.com/joshwcomeau/new-component)...
 
-...with TypeScript support and fixed config.
+...with default TypeScript support, fixed config.
 
 I contributed to the upstream but I am afraid that it will not be noticed ([original repo looks a little bit abandoned](https://github.com/joshwcomeau/new-component/pulls)), so I hope this repo with features that were essential for me, will help some of you with making React components with more ease 😌
 
@@ -28,7 +28,7 @@ This project is a globally-installable CLI for adding new React components. It's
 
 ## Features
 
-- Simple CLI interface for adding Component, PureComponent, or Stateless Functional components written in JavaScript or TypeScript.
+- Simple CLI interface for adding Component, PureComponent, or Stateless Functional components written in TypeScript or JavaScript.
 - Uses [Prettier](https://github.com/prettier/prettier) to stylistically match the existing project.
 - Offers global config, which can be overridden on a project-by-project basis.
 - Colourful terminal output!
@@ -62,7 +62,7 @@ export { default } from './Button';
 
 ```jsx
 // `Button/Button.js`
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 class Button extends Component {
   render() {
@@ -112,7 +112,7 @@ JSON config: `{ "type": <value> }`
 
 ### Directory
 
-Controls the desired directory for the created component. Defaults to `src/components`
+Controls the desired directory for the created component. Defaults to `components`
 
 **Usage:**
 
