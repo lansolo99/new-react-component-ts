@@ -1,8 +1,6 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 
-type Props = {}
-
-class COMPONENT_NAME extends PureComponent<Props> {
+class COMPONENT_NAME extends PureComponent {
   render() {
     return <div />;
   }

@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
-type Props = {}
-
-class COMPONENT_NAME extends Component<Props> {
+class COMPONENT_NAME extends Component {
   render() {
     return <div />;
   }

@@ -1,6 +1,6 @@
 # Fork of [Joshua Comeau's `new-component` CLI utility](https://github.com/joshwcomeau/new-component)...
 
-...with default TypeScript support, fixed config.
+...with default TypeScript support, fixed config. Also without React import, [no longer needed in React 17](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html).
 
 I contributed to the upstream but I am afraid that it will not be noticed ([original repo looks a little bit abandoned](https://github.com/joshwcomeau/new-component/pulls)), so I hope this repo with features that were essential for me, will help some of you with making React components with more ease 😌
 
@@ -123,7 +123,7 @@ JSON config: `{ "dir": <value> }`
 
 ### Language
 
-Controls the language for the created components. Can be either `js` (default) or `ts`.
+Controls the language for the created components. Can be either `ts` (default) or `js`.
 
 **Usage:**
 
