@@ -56,12 +56,12 @@ $ npm i -g new-component
 Your project will now have a new directory at `src/components/Button`. This directory has two files:
 
 ```jsx
-// `Button/index.js`
+// `Button/index.ts`
 export { default } from './Button';
 ```
 
 ```jsx
-// `Button/Button.js`
+// `Button/Button.tsx`
 import { Component } from 'react';
 
 class Button extends Component {
@@ -73,7 +73,7 @@ class Button extends Component {
 export default Button;
 ```
 
-> This structure might appear odd to you, with an `index.js` that points to a named file. I've found this to be an optimal way to set up components; the `index.js` allows you to `import` from the directory (eg. `import Button from 'components/Button'`), while having `Button.js` means that you're never lost in a sea of `index.js` files in your editor.
+> This structure might appear odd to you, with an `index.ts` that points to a named file. I've found this to be an optimal way to set up components; the `index.ts` allows you to `import` from the directory (eg. `import Button from 'components/Button'`), while having `Button.tsx` means that you're never lost in a sea of `index.ts` files in your editor.
 >
 > This structure is not currently configurable, but I'm happy to consider implementing alternatives!
 
