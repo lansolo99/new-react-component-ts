@@ -66,7 +66,7 @@ import { Component } from 'react';
 
 class Button extends Component {
   render() {
-    return <div />;
+    return <div>Test content</div>;
   }
 }
 

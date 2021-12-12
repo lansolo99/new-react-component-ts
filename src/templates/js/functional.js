@@ -1,3 +1,3 @@
-const COMPONENT_NAME = () => <div />;
+const COMPONENT_NAME = () => <div>Test content</div>;
 
 export default COMPONENT_NAME;
