@@ -49,6 +49,7 @@ const templatePath = `./templates/${program.type}.tsx`;
 const componentDir = `${program.dir}/${componentName}`;
 const filePath = `${componentDir}/${componentName}.tsx`;
 const indexPath = `${componentDir}/index.ts`;
+const isSiblingOf = program.siblingof || undefined
 
 const indexTemplate = prettify(`\
 export { default } from './${componentName}';
@@ -77,18 +78,17 @@ if (!fs.existsSync(fullPathToParentDir)) {
 const fullPathToComponentDir = path.resolve(componentDir);
 const componentDirExist = fs.existsSync(fullPathToComponentDir)
 
-
 // Check to see if -s flag (siblingof) has been passed
-if (componentDirExist && !program.siblingof) {
+if (componentDirExist && !isSiblingOf) {
   logError(
     `Looks like this component already exists!`
   );
   process.exit(0);
 } else {
-const siblingOfcomponentExist = fs.existsSync(path.resolve(`${program.dir}/${program.siblingof}/${componentName}.tsx`))
-  if(siblingOfcomponentExist){
+const siblingOfComponentExist = fs.existsSync(path.resolve(`${program.dir}/${program.siblingof}/${componentName}.tsx`))
+  if(siblingOfComponentExist){
      logError(
-    `Looks like this component already exists!`
+    `Looks like this sibling component already exists!`
   );
   
     process.exit(0);
@@ -99,21 +99,15 @@ const siblingOfcomponentExist = fs.existsSync(path.resolve(`${program.dir}/${pro
   }
 }
 
-if(!program.siblingof){
-  
-// Start by creating the directory that our component lives in.
-mkDirPromise(componentDir)
-  .then(() => readFilePromiseRelative(templatePath))
-  .then((template) => {
+const createComponent = () => {
+readFilePromiseRelative(templatePath).then((template) => {
     logItemCompletion('Directory created.');
     return template;
   })
   .then((template) =>
-    // Replace our placeholders with real data (so far, just the component name)
     template.replace(/COMPONENT_NAME/g, componentName)
   )
   .then((template) =>
-    // Format it using prettier, to ensure style consistency, and write to file.
     writeFilePromise(filePath, prettify(template))
   )
   .then((template) => {
@@ -121,7 +115,6 @@ mkDirPromise(componentDir)
     return template;
   })
   .then((template) =>
-    // We also need the `index.js` file, which allows easy importing.
     writeFilePromise(indexPath, prettify(indexTemplate))
   )
   .then((template) => {
@@ -134,8 +127,15 @@ mkDirPromise(componentDir)
   .catch((err) => {
     console.error(err);
   });
+}
+
+
+if(!isSiblingOf){
+
+  mkDirPromise(componentDir)
+  .then(() => createComponent())
+ 
 }else{
-  // Will be a sibling of existing component name
   const siblingOfComponentDir = `${program.dir}/${program.siblingof}`;
   const siblingOfFilePath = `${siblingOfComponentDir}/${componentName}.tsx`;
   const siblingOfIndexPath = `${siblingOfComponentDir}/index.ts`;
@@ -144,17 +144,15 @@ mkDirPromise(componentDir)
 export { default as ${componentName} } from './${componentName}';
 `);
 
-  // Bypass the directory creation 
+  
   readFilePromiseRelative(templatePath)
    .then((template) => {
     return template;
   })
    .then((template) =>
-    // Replace our placeholders with real data (so far, just the component name)
     template.replace(/COMPONENT_NAME/g, componentName)
   )
    .then((template) =>
-    // Format it using prettier, to ensure style consistency, and write to file in siblingof dir.
     writeFilePromise(siblingOfFilePath, prettify(template))
   )
    .then((template) => {
@@ -162,7 +160,6 @@ export { default as ${componentName} } from './${componentName}';
     return template;
   })
    .then((template) =>
-    // We also need the `index.js` file, which allows easy importing.
     appendFilePromise(siblingOfIndexPath, prettify(siblingOfComponentIndexTemplate))
   )
    .then((template) => {
