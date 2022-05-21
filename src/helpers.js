@@ -28,7 +28,7 @@ module.exports.getConfig = () => {
   const currentPath = process.cwd();
 
   const defaults = {
-    type: 'functional',
+    type: 'default',
     dir: 'components',
     language: 'ts',
     extension: 'js',
@@ -59,7 +59,7 @@ const colors = {
 };
 
 const logComponentType = (selected) =>
-  ['class', 'pure-class', 'functional']
+  ['default','props']
     .sort((a, b) => (a === selected ? -1 : 1))
     .map((option) =>
       option === selected

@@ -36,8 +36,8 @@ program
   .arguments('<componentName>')
   .option(
     '-t, --type <componentType>',
-    'Type of React component to generate (default: "functional")',
-    /^(class|pure-class|functional|functional-props)$/i,
+    'Type of React component to generate (default: "default")',
+    /^(default|props)$/i,
     config.type
   )
   .option(
