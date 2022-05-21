@@ -13,22 +13,14 @@ const {
   logError,
 } = require('./helpers');
 const {
-  requireOptional,
   mkDirPromise,
   readFilePromiseRelative,
   writeFilePromise,
   appendFilePromise,
 } = require('./utils');
 
-// Load our package.json, so that we can pass the version onto `commander`.
 const { version } = require('../package.json');
-
-// Get the default config for this component (looks for local/global overrides,
-// falls back to sensible defaults).
 const config = getConfig();
-
-// Convenience wrapper around Prettier, so that config doesn't have to be
-// passed every time.
 const prettify = buildPrettifier(config.prettierConfig);
 
 program
@@ -45,16 +37,6 @@ program
     'Path to the "components" directory (default: "src/components")',
     config.dir
   )
-  .option(
-    '-l, --language <filesLanguage>',
-    'Which files language to use for all component\'s files (default: "js")',
-    config.language
-  )
-  .option(
-    '-x, --extension <fileExtension>',
-    'Which file extension to use for the component (skipped in TypeScript components - for TS it is always "tsx")',
-    config.extension
-  )
    .option(
     '-s, --siblingof <fileName>',
     'What is the sibling component name of the component to be created (sibling dir should exist)',
@@ -63,41 +45,21 @@ program
   .parse(process.argv);
 
 const [componentName] = program.args;
-
-// Always set the component's extension to ".tsx" if desired language is TypeScript.
-const componentFileExtension = 
-  program.language === 'ts' ? 'tsx' : program.extension;
-
-// Set proper template file extension, based on language.
-const templateFileExtension = program.language === 'ts' ? 'tsx' : 'js';
-
-// Find the path to the selected template file.
-const templatePath = `./templates/${program.language}/${program.type}.${templateFileExtension}`;
-
-// Get all of our file paths worked out, for the user's project.
+const templatePath = `./templates/${program.type}.tsx`;
 const componentDir = `${program.dir}/${componentName}`;
-const filePath = `${componentDir}/${componentName}.${componentFileExtension}`;
-const indexPath = `${componentDir}/index.${program.language}`;
+const filePath = `${componentDir}/${componentName}.tsx`;
+const indexPath = `${componentDir}/index.ts`;
 
-// Our index template is super straightforward, so we'll just inline it for now.
 const indexTemplate = prettify(`\
 export { default } from './${componentName}';
 `);
 
-logIntro({ name: componentName, dir: componentDir, type: program.type, language: program.language });
+logIntro({ name: componentName, dir: componentDir, type: program.type});
 
 // Check if componentName is provided
 if (!componentName) {
   logError(
     `Sorry, you need to specify a name for your component like this: new-component <name>`
-  );
-  process.exit(0);
-}
-
-// Check if component's language is either JS or TS 
-if (program.language !== 'ts' && program.language !== 'js') {
-  logError(
-    `Sorry, you need to provide correct language shorthand ("js" or "ts")`
   );
   process.exit(0);
 }
@@ -116,15 +78,14 @@ const fullPathToComponentDir = path.resolve(componentDir);
 const componentDirExist = fs.existsSync(fullPathToComponentDir)
 
 
-// Check to see if siblingof flag has been passed
+// Check to see if -s flag (siblingof) has been passed
 if (componentDirExist && !program.siblingof) {
   logError(
     `Looks like this component already exists!`
   );
- 
   process.exit(0);
-}else{
-const siblingOfcomponentExist = fs.existsSync(path.resolve(`${program.dir}/${program.siblingof}/${componentName}.${componentFileExtension}`))
+} else {
+const siblingOfcomponentExist = fs.existsSync(path.resolve(`${program.dir}/${program.siblingof}/${componentName}.tsx`))
   if(siblingOfcomponentExist){
      logError(
     `Looks like this component already exists!`
@@ -136,9 +97,6 @@ const siblingOfcomponentExist = fs.existsSync(path.resolve(`${program.dir}/${pro
      `${componentName} will be sibling of ${program.siblingof}.`
    );
   }
-
- 
-
 }
 
 if(!program.siblingof){
@@ -179,8 +137,8 @@ mkDirPromise(componentDir)
 }else{
   // Will be a sibling of existing component name
   const siblingOfComponentDir = `${program.dir}/${program.siblingof}`;
-  const siblingOfFilePath = `${siblingOfComponentDir}/${componentName}.${componentFileExtension}`;
-  const siblingOfIndexPath = `${siblingOfComponentDir}/index.${program.language}`;
+  const siblingOfFilePath = `${siblingOfComponentDir}/${componentName}.tsx`;
+  const siblingOfIndexPath = `${siblingOfComponentDir}/index.ts`;
 
   const siblingOfComponentIndexTemplate = prettify(`\
 export { default as ${componentName} } from './${componentName}';
