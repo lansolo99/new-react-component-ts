@@ -36,7 +36,7 @@ program
   .option(
     '-t, --type <componentType>',
     'Type of React component to generate (default: "functional")',
-    /^(class|pure-class|functional)$/i,
+    /^(class|pure-class|functional|functional-props)$/i,
     config.type
   )
   .option(
@@ -53,6 +53,11 @@ program
     '-x, --extension <fileExtension>',
     'Which file extension to use for the component (skipped in TypeScript components - for TS it is always "tsx")',
     config.extension
+  )
+   .option(
+    '-s, --siblingof <fileName>',
+    'Which component name to use for the sibling component (sibling should exist)',
+    config.siblingof
   )
   .parse(process.argv);
 
@@ -107,13 +112,36 @@ if (!fs.existsSync(fullPathToParentDir)) {
 
 // Check to see if this component has already been created
 const fullPathToComponentDir = path.resolve(componentDir);
-if (fs.existsSync(fullPathToComponentDir)) {
+const componentDirExist = fs.existsSync(fullPathToComponentDir)
+
+
+// Check to see if siblingof flag has been passed
+if (componentDirExist && !program.siblingof) {
   logError(
-    `Looks like this component already exists! There's already a component at ${componentDir}.\nPlease delete this directory and try again.`
+    `Looks like this component already exists!`
   );
+ 
   process.exit(0);
+}else{
+const siblingOfcomponentExist = fs.existsSync(path.resolve(`${program.dir}/${program.siblingof}/${componentName}.${componentFileExtension}`))
+  if(siblingOfcomponentExist){
+     logError(
+    `Looks like this component already exists!`
+  );
+  
+    process.exit(0);
+  }else{
+    logItemCompletion(
+     `${componentName} will be sibling of ${program.siblingof}.`
+   );
+  }
+
+ 
+
 }
 
+if(!program.siblingof){
+  
 // Start by creating the directory that our component lives in.
 mkDirPromise(componentDir)
   .then(() => readFilePromiseRelative(templatePath))
@@ -147,3 +175,30 @@ mkDirPromise(componentDir)
   .catch((err) => {
     console.error(err);
   });
+}else{
+  // Is sibling of existing componentName
+  const siblingOfComponentDir = `${program.dir}/${program.siblingof}`;
+  const siblingOfFilePath = `${siblingOfComponentDir}/${componentName}.${componentFileExtension}`;
+
+  // Bypass the directory creation 
+  readFilePromiseRelative(templatePath)
+   .then((template) => {
+    return template;
+  })
+   .then((template) =>
+    // Replace our placeholders with real data (so far, just the component name)
+    template.replace(/COMPONENT_NAME/g, componentName)
+  )
+   .then((template) =>
+    // Format it using prettier, to ensure style consistency, and write to file in siblingof dir.
+    writeFilePromise(siblingOfFilePath, prettify(template))
+  )
+   .then((template) => {
+    logItemCompletion('Sibling component built and saved to disk.');
+    return template;
+  })
+   .catch((err) => {
+    console.error(err);
+  });
+  
+}
