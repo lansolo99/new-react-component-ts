@@ -17,6 +17,7 @@ const {
   mkDirPromise,
   readFilePromiseRelative,
   writeFilePromise,
+  appendFilePromise,
 } = require('./utils');
 
 // Load our package.json, so that we can pass the version onto `commander`.
@@ -56,7 +57,7 @@ program
   )
    .option(
     '-s, --siblingof <fileName>',
-    'Which component name to use for the sibling component (sibling should exist)',
+    'What is the sibling component name of the component to be created (sibling dir should exist)',
     config.siblingof
   )
   .parse(process.argv);
@@ -176,9 +177,14 @@ mkDirPromise(componentDir)
     console.error(err);
   });
 }else{
-  // Is sibling of existing componentName
+  // Will be a sibling of existing component name
   const siblingOfComponentDir = `${program.dir}/${program.siblingof}`;
   const siblingOfFilePath = `${siblingOfComponentDir}/${componentName}.${componentFileExtension}`;
+  const siblingOfIndexPath = `${siblingOfComponentDir}/index.${program.language}`;
+
+  const siblingOfComponentIndexTemplate = prettify(`\
+export { default as ${componentName} } from './${componentName}';
+`);
 
   // Bypass the directory creation 
   readFilePromiseRelative(templatePath)
@@ -195,6 +201,14 @@ mkDirPromise(componentDir)
   )
    .then((template) => {
     logItemCompletion('Sibling component built and saved to disk.');
+    return template;
+  })
+   .then((template) =>
+    // We also need the `index.js` file, which allows easy importing.
+    appendFilePromise(siblingOfIndexPath, prettify(siblingOfComponentIndexTemplate))
+  )
+   .then((template) => {
+    logItemCompletion('Index file edited and saved to disk.');
     return template;
   })
    .catch((err) => {

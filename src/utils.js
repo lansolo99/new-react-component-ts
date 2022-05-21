@@ -40,6 +40,7 @@ module.exports.readFilePromise = (fileLocation) =>
       err ? reject(err) : resolve(text);
     });
   });
+  
 
 module.exports.writeFilePromise = (fileLocation, fileContent) =>
   new Promise((resolve, reject) => {
@@ -47,6 +48,14 @@ module.exports.writeFilePromise = (fileLocation, fileContent) =>
       err ? reject(err) : resolve();
     });
   });
+
+module.exports.appendFilePromise = (fileLocation, fileContent) =>
+  new Promise((resolve, reject) => {
+    fs.appendFile(fileLocation, fileContent, 'utf-8', (err) => {
+      err ? reject(err) : resolve();
+    });
+  });
+  
 
 // Somewhat counter-intuitively, `fs.readFile` works relative to the current
 // working directory (if the user is in their own project, it's relative to
