@@ -9,7 +9,6 @@ const {
   buildPrettifier,
   logIntro,
   logItemCompletion,
-  logConclusion,
   logError,
 } = require('./helpers');
 const {
@@ -93,88 +92,64 @@ const siblingOfComponentExist = fs.existsSync(path.resolve(`${program.dir}/${pro
   
     process.exit(0);
   }else{
-    logItemCompletion(
-     `${componentName} will be sibling of ${program.siblingof}.`
-   );
+    if(isSiblingOf){
+
+      logItemCompletion(
+       `${componentName} will be sibling of ${program.siblingof}.`
+     );
+    }
   }
 }
 
-const createComponent = () => {
 
-  readFilePromiseRelative(templatePath)
-  .then((template) => {
-    // Prepare template file
+if(!isSiblingOf){
+  // Is a new root component
+
+  mkDirPromise(componentDir)
+  .then(() => readFilePromiseRelative(templatePath))
+  .then((template) =>
     template.replace(/COMPONENT_NAME/g, componentName)
-    return template
-    }
   )
-  .then((template) =>{
-    // Write template file
-    const dynamicPath = isSiblingOf ? `${program.dir}/${program.siblingof}/${componentName}.tsx` : filePath;
-      writeFilePromise(dynamicPath, prettify(template))
-      return template
-    }
+  .then((template) =>
+    writeFilePromise(filePath, prettify(template))
   )
-   .then((template) =>{
-      if(!isSiblingOf){  
-        // Write index file
-        console.log('Write index file')
-        writeFilePromise(indexPath, prettify(indexTemplate))
-      } else {
-        // Edit index file
-         const siblingOfIndexPath = `${program.dir}/${program.siblingof}/index.ts`;
-         const siblingOfComponentIndexTemplate = prettify(`\
-          export { default as ${componentName} } from './${componentName}';
-      `);
-        appendFilePromise(siblingOfIndexPath, prettify(siblingOfComponentIndexTemplate))
-      }
-      return template;
-    }
+  .then((template) =>
+    writeFilePromise(indexPath, prettify(indexTemplate))
   )
   .then((template) => {
-    // Log actions
-    logConclusion();
+    logItemCompletion('Root component and index file created.');
     return template;
   })
   .catch((err) => {
     console.error(err);
   });
-}
-
-
-if(!isSiblingOf){
-  console.log('is not a sibling')
-  // Make new dir
-  mkDirPromise(componentDir)
-  .then(() => createComponent())
  
 }else{
-  console.log('is a sibling')
-  // const siblingOfComponentDir = `${program.dir}/${program.siblingof}`;
-  // const siblingOfFilePath = `${siblingOfComponentDir}/${componentName}.tsx`;
-  // const siblingOfIndexPath = `${siblingOfComponentDir}/index.ts`;
+  // Is a sibling of an existing root component
 
+  const siblingOfComponentDir = `${program.dir}/${program.siblingof}`;
+  const siblingOfFilePath = `${siblingOfComponentDir}/${componentName}.tsx`;
+  const siblingOfIndexPath = `${siblingOfComponentDir}/index.ts`;
+  const siblingOfComponentIndexTemplate = prettify(`\
+export { default as ${componentName} } from './${componentName}';
+`);
  
-
-createComponent()
-
-  
-  // readFilePromiseRelative(templatePath)
-  //  .then((template) =>
-  //   template.replace(/COMPONENT_NAME/g, componentName)
-  // )
-  //  .then((template) =>
-  //   writeFilePromise(siblingOfFilePath, prettify(template))
-  // )
-  //  .then((template) =>
-  //   appendFilePromise(siblingOfIndexPath, prettify(siblingOfComponentIndexTemplate))
-  // )
-  //  .then((template) => {
-  //   logItemCompletion('Index file edited and saved to disk.');
-  //   return template;
-  // })
-  //  .catch((err) => {
-  //   console.error(err);
-  // });
+  readFilePromiseRelative(templatePath)
+   .then((template) =>
+    template.replace(/COMPONENT_NAME/g, componentName)
+  )
+   .then((template) =>
+    writeFilePromise(siblingOfFilePath, prettify(template))
+  )
+   .then((template) =>
+    appendFilePromise(siblingOfIndexPath, prettify(siblingOfComponentIndexTemplate))
+  )
+   .then((template) => {
+    logItemCompletion('Sibling component created and relative index file edited.');
+    return template;
+  })
+   .catch((err) => {
+    console.error(err);
+  });
   
 }

@@ -1,57 +1,30 @@
-# Fork of [Joshua Comeau's `new-component` CLI utility](https://github.com/joshwcomeau/new-component)...
+# New Typescript React Component CLI utility
+- Simplified version based on a fork from [Robert Orlinski](https://github.com/robert-orlinski/new-component), originally forked from the [Josh Comeau package](https://github.com/joshwcomeau/new-component)
+- Simple, customizable utility for adding new React components to your project
+- This project is a globally-installable CLI for adding new React components.
 
-...with default TypeScript support, fixed config. Also without React import, [no longer needed in React 17](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html).
-
-I contributed to the upstream but I am afraid that it will not be noticed ([original repo looks a little bit abandoned](https://github.com/joshwcomeau/new-component/pulls)), so I hope this repo with features that were essential for me, will help some of you with making React components with more ease 😌
-
-The rest of README is just the original text with some tweaks needed to explain features added by me.
-
-Enjoy!
-
----
-
-<p align="center">
-  <img src="https://github.com/joshwcomeau/new-component/blob/master/docs/logo@2x.png?raw=true" width="285" height="285" alt="new-component logo">
-  <br>
-  <a href="https://www.npmjs.org/package/new-component"><img src="https://img.shields.io/npm/v/new-component.svg?style=flat" alt="npm"></a>
-</p>
-
-### Simple, customizable utility for adding new React components to your project.
-
-<img src="https://github.com/joshwcomeau/new-component/blob/master/docs/divider@2x.png?raw=true" width="888" height="100" role="presentation">
-
-Anyone else sick of writing the same component boilerplate, over and over?
-
-This project is a globally-installable CLI for adding new React components. It's dead simple to use, and requires no configuration, although it's easy to customize it to fit your project's coding style.
-
-<br />
 
 ## Features
 
-- Simple CLI interface for adding Component, PureComponent, or Stateless Functional components written in TypeScript or JavaScript.
-- Uses [Prettier](https://github.com/prettier/prettier) to stylistically match the existing project.
+- Simple CLI interface for adding functional components written in TypeScript.
+- Uses [Prettier](https://github.com/prettier/prettier)
 - Offers global config, which can be overridden on a project-by-project basis.
-- Colourful terminal output!
-
-<br />
+- Colourful terminal output
 
 ## Quickstart
 
-Install via NPM:
-
 ```bash
-# Using Yarn:
-$ yarn global add new-component
+# Yarn:
+$ yarn global add new-react-component-ts
 
-# or, using NPM
-$ npm i -g new-component
+# NPM
+$ npm i -g new-react-component-ts
 ```
 
 `cd` into your project's directory, and try creating a new component:
 
-<p align="center">
-  <img src="https://github.com/joshwcomeau/new-component/blob/master/docs/demo.gif?raw=true" width="888" height="369" alt="demo of CLI functionality">
-</p>
+<img src="https://github.com/joshwcomeau/new-component/blob/master/docs/demo.gif?raw=true" width="888" height="369" alt="demo of CLI functionality">
+
 
 Your project will now have a new directory at `src/components/Button`. This directory has two files:
 

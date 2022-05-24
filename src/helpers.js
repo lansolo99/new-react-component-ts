@@ -88,16 +88,9 @@ module.exports.logIntro = ({ name, dir, type }) => {
 };
 
 module.exports.logItemCompletion = (successText) => {
+  console.info('\n');
   const checkmark = chalk.rgb(...colors.green)('✓');
   console.info(`${checkmark} ${successText}`);
-};
-
-module.exports.logConclusion = () => {
-  console.info('\n');
-  console.info(chalk.bold.rgb(...colors.green)('Component created! 🚀 '));
-  console.info(
-    chalk.rgb(...colors.mediumGray)('Thanks for using new-component.')
-  );
   console.info('\n');
 };
 
