@@ -7,24 +7,24 @@
 ## Features
 
 - Simple CLI interface for adding functional components written in TypeScript.
-- Uses [Prettier](https://github.com/prettier/prettier)
+- 2 editable templates models: with or without props
+- 2 ways of inserting components:
+  - As a new root component
+  - As a sibling of an existing component
 - Offers global config, which can be overridden on a project-by-project basis.
 - Colourful terminal output
 
-## Quickstart
+## Install
 
 ```bash
 # Yarn:
 $ yarn global add new-react-component-ts
-
-# NPM
-$ npm i -g new-react-component-ts
 ```
 
+## Usage
 `cd` into your project's directory, and try creating a new component:
 
 <img src="https://github.com/joshwcomeau/new-component/blob/master/docs/demo.gif?raw=true" width="888" height="369" alt="demo of CLI functionality">
-
 
 Your project will now have a new directory at `src/components/Button`. This directory has two files:
 
@@ -35,13 +35,7 @@ export { default } from './Button';
 
 ```jsx
 // `Button/Button.tsx`
-import { Component } from 'react';
-
-class Button extends Component {
-  render() {
-    return <div>Test content</div>;
-  }
-}
+const Button = () => <div>Component without props</div>;
 
 export default Button;
 ```
