@@ -3,6 +3,7 @@
 - Simple, customizable utility for adding new React components to your project
 - This project is a globally-installable CLI for adding new React components.
 
+<br />
 
 ## Features
 
@@ -14,6 +15,8 @@
 - Offers global config, which can be overridden on a project-by-project basis.
 - Colourful terminal output
 
+<br />
+
 ## Install
 
 ```bash
@@ -21,32 +24,45 @@
 $ yarn global add new-react-component-ts
 ```
 
+<br />
+
 ## Usage
-`cd` into your project's directory, and try creating a new component:
 
-<img src="https://github.com/joshwcomeau/new-component/blob/master/docs/demo.gif?raw=true" width="888" height="369" alt="demo of CLI functionality">
+<br />
 
-Your project will now have a new directory at `src/components/Button`. This directory has two files:
+> `cd` into your project's directory, and try creating a new component:
 
-```jsx
+```bash
+new-component Button
+```
+
+<br />
+
+> Your project will now have a new directory at `src/components/Button`. This directory has two files:
+
+```ts
+
 // `Button/index.ts`
 export { default } from './Button';
 ```
 
-```jsx
+```tsx
 // `Button/Button.tsx`
+
 const Button = () => <div>Component without props</div>;
 
 export default Button;
 ```
 
-> This structure might appear odd to you, with an `index.ts` that points to a named file. I've found this to be an optimal way to set up components; the `index.ts` allows you to `import` from the directory (eg. `import Button from 'components/Button'`), while having `Button.tsx` means that you're never lost in a sea of `index.ts` files in your editor.
->
-> This structure is not currently configurable, but I'm happy to consider implementing alternatives!
+<br />
+
+> Now you can import your created component via `import Button from 'components/Button'`
 
 <br />
 
 ## Configuration
+
+<br />
 
 Configuration can be done through 3 different ways:
 
@@ -64,11 +80,9 @@ The resulting values are merged, with command-line values overwriting local valu
 
 Control the type of component created:
 
-- `functional` for a stateless functional component (default).
-- `class` for a traditional Component class,
-- `pure-class` for a PureComponent class,
+- `default` for a functional component WITHOUT props.
+- `props` for a functional component WITH base props markup.
 
-Legacy `createClass` components are not supported.
 
 **Usage:**
 
@@ -88,29 +102,33 @@ Command line: `--dir <value>` or `-d <value>`
 JSON config: `{ "dir": <value> }`
 <br />
 
-### Language
+### Sibling of
 
-Controls the language for the created components. Can be either `ts` (default) or `js`.
+Controls the file created as being a sibling component of an existing one
 
-**Usage:**
+> A sibling component is a common pattern that set multiples components belonging to the same feature. The file structure approach is [well described](https://www.joshwcomeau.com/react/file-structure/) by Josh Comeau. Eg:
 
-Command line: `--language <value>` or `-l <value>`
 
-JSON config: `{ "language": <value> }`
-<br />
-
-### File Extension
-
-Controls the file extension for the created components. Can be either `js` (default) or `jsx`. 
-
-> As you see, `tsx` is not predicted - everything because if you choose TypeScript as the [language](#language), file extension always remain `tsx` and you don't have to tweak this option in any way. 
+- Button
+- ButtonIcon
+- ButtonGroup
 
 **Usage:**
 
-Command line: `--extension <value>` or `-x <value>`
+Command line: `--siblingof <existingComponentName>` or `-s <existingComponentName>`
+<br /><br />
 
-JSON config: `{ "extension": <value> }`
-<br />
+> Using this command will not create a new folder but inserting the new component in the provided component'name folder.
+
+```bash
+new-component ButtonGroup -s Button
+```
+
+> The index file will append the new sibling component reference as a named export into the proper index.ts file.
+
+If the root component doesn't exist, the command will throw an error.
+
+<br>
 
 ### Prettier Config
 
@@ -120,6 +138,7 @@ For a full list of options, see the [Prettier docs](https://github.com/prettier/
 
 **Usage:**
 
+<br />
 Command line: N/A (Prettier config is only controllable through JSON)
 
 JSON config: `{ "prettierConfig": { "key": "value" } }`
@@ -136,21 +155,9 @@ JSON config: `{ "prettierConfig": { "key": "value" } }`
 }
 ```
 
-(Ideally, the plugin would consume your project's prettier settings automatically! But I haven't built this yet. PRs welcome!)
-
 <br />
 
 ## Platform Support
 
-This has only been tested in macOS. I think it'd work fine in linux, but I haven't tested it. Windows is a big question mark (would welcome contribution here!).
+This has only been tested in macOS.
 
-<br />
-
-## Development
-
-To get started with development:
-
-- Check out this git repo locally, you will need to ensure you have Yarn installed globally.
-- In the folder run `yarn install`
-- Check that command runs `node ../new-component/src/index.js --help`
-- Alternatively you can set up a symlink override by running `npm link` then `new-component --help`. Note: this will override any globally installed version of this package.
