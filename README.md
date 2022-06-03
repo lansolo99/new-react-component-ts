@@ -161,3 +161,12 @@ JSON config: `{ "prettierConfig": { "key": "value" } }`
 
 This has only been tested in macOS.
 
+<br/>
+
+## Roadmap
+
+Here are some improvement I plan to release sooner or later
+
+- [ ] Implement proprer eslint configuration
+- [ ] Refactor actions using async/await instead of promises
+
