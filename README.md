@@ -65,8 +65,8 @@ export default Button;
 
 Configuration can be done through 3 different ways:
 
-- Creating a global `.new-component-config.json` in your home directory (`~/.new-component-config.json`).
-- Creating a local `.new-component-config.json` in your project's root directory.
+- Creating a global `.new-react-component-ts-config.json` in your home directory (`~/.new-react-component-ts-config.json`).
+- Creating a local `.new-react-component-ts-config.json` in your project's root directory.
 - Command-line arguments.
 
 The resulting values are merged, with command-line values overwriting local values, and local values overwriting global ones.

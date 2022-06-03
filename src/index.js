@@ -59,7 +59,7 @@ logIntro({ name: componentName, dir: componentDir, type: program.type});
 // Check if componentName is provided
 if (!componentName) {
   logError(
-    `Sorry, you need to specify a name for your component like this: new-component <name>`
+    `Sorry, you need to specify a name for your component like this: new-react-component-ts <name>`
   );
   process.exit(0);
 }
@@ -68,7 +68,7 @@ if (!componentName) {
 const fullPathToParentDir = path.resolve(program.dir);
 if (!fs.existsSync(fullPathToParentDir)) {
   logError(
-    `Sorry, you need to create a parent "components" directory.\n(new-component is looking for a directory at ${program.dir}).`
+    `Sorry, you need to create a parent "components" directory.\n(new-react-component-ts is looking for a directory at ${program.dir}).`
   );
   process.exit(0);
 }

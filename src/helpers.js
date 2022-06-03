@@ -35,11 +35,11 @@ module.exports.getConfig = () => {
   };
 
   const globalOverrides = requireOptional(
-    `/${home}/.new-component-config.json`
+    `/${home}/.new-react-component-ts-config.json`
   );
 
   const localOverrides = requireOptional(
-    `/${currentPath}/.new-component-config.json`
+    `/${currentPath}/.new-react-component-ts-config.json`
   );
 
   return Object.assign({}, defaults, globalOverrides, localOverrides);
