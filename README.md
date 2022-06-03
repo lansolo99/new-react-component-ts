@@ -20,8 +20,7 @@
 ## Install
 
 ```bash
-# Yarn:
-$ yarn global add new-react-component-ts
+yarn global add new-react-component-ts
 ```
 
 <br />
@@ -33,7 +32,7 @@ $ yarn global add new-react-component-ts
 > `cd` into your project's directory, and try creating a new component:
 
 ```bash
-new-component Button
+new-react-component-ts Button
 ```
 
 <br />
@@ -121,7 +120,7 @@ Command line: `--siblingof <existingComponentName>` or `-s <existingComponentNam
 > Using this command will not create a new folder but inserting the new component in the provided component'name folder.
 
 ```bash
-new-component ButtonGroup -s Button
+new-react-component-ts ButtonGroup -s Button
 ```
 
 > The index file will append the new sibling component reference as a named export into the proper index.ts file.

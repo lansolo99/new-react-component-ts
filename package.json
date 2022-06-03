@@ -1,5 +1,5 @@
 {
-  "name": "new-component",
+  "name": "new-react-component-ts",
   "version": "4.0.0",
   "description": "CLI for creating new React components in Typescript",
   "homepage": "https://github.com/lansolo99/new-react-component-ts",
@@ -21,7 +21,7 @@
   "author": "Stéphane Changarnier",
   "license": "MIT",
   "bin": {
-    "new-component-ts": "./src/index.js"
+    "new-react-component-ts": "./src/index.js"
   },
   "dependencies": {
     "chalk": "^2.4.1",
