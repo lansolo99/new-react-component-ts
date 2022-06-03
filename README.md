@@ -71,6 +71,13 @@ Configuration can be done through 3 different ways:
 
 The resulting values are merged, with command-line values overwriting local values, and local values overwriting global ones.
 
+> Example of .new-react-component-ts-config.json configuraton file containing a custom component directory path:
+
+```json
+{
+  "dir": "src/components"
+}
+```
 <br />
 
 ## API Reference
